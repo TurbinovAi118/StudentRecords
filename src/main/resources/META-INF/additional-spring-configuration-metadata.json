@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "students.init.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Description for students.init.enabled."
+    },
+    {
+      "name": "students.list",
+      "type": "java.lang.String",
+      "description": "Description for students.list."
+    }
+  ]
+}
