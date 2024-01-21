@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @ShellComponent
 @Component
 @RequiredArgsConstructor
-//@ConditionalOnProperty("students.init.enabled")
 public class StudentRecordShell {
 
     @Value("${students.list}")
@@ -30,34 +29,15 @@ public class StudentRecordShell {
     private final List<Student> studentsRecord;
 
     private final ApplicationEventPublisher publisher;
-    /*
-    private void parseStudents(String studentsList){
-        try (Scanner scanner = new Scanner(new File(studentsList))) {
-            while (scanner.hasNextLine()) {
-                List<String> student = Arrays.asList(scanner.nextLine().split(";"));
-                add(student.get(0).trim(), student.get(1).trim(), Integer.valueOf(student.get(2).trim()));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @EventListener(ApplicationStartedEvent.class)
-    public void initStudentList(){
-        parseStudents(initialStudentsList);
-    }
-    */
 
     @ShellMethod
     public void add(String firstName, String lastName, Integer age){
         int index = studentsRecord.size() > 0 ? studentsRecord.stream().map(Student::getId).reduce(Integer::max).get() : 0;
         Student student = new Student(index + 1, firstName, lastName, age);
         studentsRecord.add(student);
-/*
-        System.out.println(MessageFormat.format("Added new student, first name: {0}, last name: {1}, age: {2}",
-                firstName, lastName, age));
-*/
+        
         publisher.publishEvent(new EventHolder(this, student, null));
+        
         writeStudent(MessageFormat.format("{0};{1};{2}",
                 firstName, lastName, age),
                 true);
